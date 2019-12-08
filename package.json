@@ -20,6 +20,6 @@
   "homepage": "https://github.com/GroupQuattro/recipe-box-api#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "swagger-ui-express": "^4.1.2"
+    "firebase-admin": "^8.8.0"
   }
 }
