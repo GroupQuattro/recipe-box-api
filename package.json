@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/GroupQuattro/recipe-box-api#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
-    "firebase-admin": "^8.8.0"
+    "firebase-admin": "^8.8.0",
+    "sequelize": "^5.21.3"
   }
 }

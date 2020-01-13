@@ -1,7 +1,9 @@
 var express = require("express");
 var app = express();
 var  path = require("path");
-const admin = require('firebase-admin')
+//const admin = require('firebase-admin');
+const admin = require('./firebase-admin/admin');
+var cookieParser = require('cookie-parser');
 var HTTP_PORT = process.env.PORT || 8082;
 
 function onHttpStart() {
@@ -11,11 +13,15 @@ function onHttpStart() {
 app.get("/", function(req,res){
     res.sendFile(path.join(__dirname,"/src/index.html"));
 });
-giy 
+
 // setup another route to listen on /about
 app.get("/about", function(req,res){
     res.sendFile(path.join(__dirname,"/index.html"));
 });
+
+function authenticate(){
+  
+}
 
 // setup http server to listen on HTTP_PORT
 app.listen(HTTP_PORT, onHttpStart);
