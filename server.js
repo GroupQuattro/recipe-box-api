@@ -2,7 +2,7 @@ var express = require("express");
 var app = express();
 var  path = require("path");
 //const admin = require('firebase-admin');
-const admin = require('./firebase-admin/admin');
+//const admin = require('./src/firebase-admin/admin');
 var cookieParser = require('cookie-parser');
 var HTTP_PORT = process.env.PORT || 8082;
 
