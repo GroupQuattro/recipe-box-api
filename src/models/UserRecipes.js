@@ -1,6 +1,6 @@
 /* jshint indent: 2 */
-const { Sequelize, Model, DataTypes } = require("sequelize");
-const UserRecipes = function (sequelize, DataTypes) {
+
+module.exports = function(sequelize, DataTypes) {
   return sequelize.define('userRecipes', {
     id: {
       type: DataTypes.INTEGER(11),
@@ -97,12 +97,6 @@ const UserRecipes = function (sequelize, DataTypes) {
       field: 'customDetails'
     }
   }, {
-      tableName: 'UserRecipes'
-    });
+    tableName: 'UserRecipes'
+  });
 };
-(async () => {
-  await sequelize.sync({ force: true });
-  const x = UserRecipes;
-})();
-
-module.exports = UserRecipes;
