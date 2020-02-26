@@ -20,10 +20,12 @@
   "homepage": "https://github.com/GroupQuattro/recipe-box-api#readme",
   "dependencies": {
     "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "firebase-admin": "^8.8.0",
     "mysql": "^2.18.1",
     "sequelize": "^5.21.5"
+    "mysql2": "^2.1.0",
   }
 }
