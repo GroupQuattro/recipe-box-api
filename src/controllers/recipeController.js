@@ -3,6 +3,8 @@
 var axios = require('axios');
 const urlBase = "https://api.spoonacular.com/recipes/"
 const apiKey = process.env.secret;
+const recipeModel = require("../models/UserRecipes");
+const { Sequelize, Model, DataTypes } = require("sequelize");
 exports.recipe_list = function (req, res) {
   res.send('NOT IMPLEMENTED: Author list');
 };
@@ -69,7 +71,7 @@ exports.recipeCreateGET = function (req, res) {
 
 // Handle Author create on POST.
 exports.recipeCreatePOST = function (req, res) {
-  res.send('NOT IMPLEMENTED: Author create POST');
+  recipeModel = Model.create()
 };
 
 // Display Author delete form on GET.
