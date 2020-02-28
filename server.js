@@ -21,6 +21,10 @@ app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "/src/index.html"));
 });
 
+app.get("/docs", function (req, res) {
+  res.sendFile(path.join(__dirname, "/src/index.html"));
+});
+
 // setup another route to listen on /about
 app.get("/about", function (req, res) {
   res.send({ 'Page': 'About' });

@@ -3,11 +3,21 @@
 var axios = require('axios');
 const urlBase = "https://api.spoonacular.com/recipes/"
 const apiKey = process.env.secret;
-const recipeModel = require("../models/UserRecipes");
+var rr = require('../routing/routes')
+//const recipeModel = require("../models/UserRecipes");
 const { Sequelize, Model, DataTypes } = require("sequelize");
-exports.recipe_list = function (req, res) {
-  res.send('NOT IMPLEMENTED: Author list');
-};
+/* Important steps to connect to db instance and update it */
+
+var db = new Sequelize('prj666_201a04', 'prj666_201a04', 'faGX@7748', {
+  host: 'mymysql.senecacollege.ca',
+  dialect: 'mysql',
+  define: {
+    timestamps: false
+  }
+});
+
+var UserRecipes = db.import('../models/UserRecipes.js');
+
 /* Gets a list of recipes matching criteria
 format to come from APP : http://localhost:8082/recipe/search?id=123&cuisine=italian&title=pizza
 */
@@ -71,8 +81,16 @@ exports.recipeCreateGET = function (req, res) {
 
 // Handle Author create on POST.
 exports.recipeCreatePOST = function (req, res) {
-  recipeModel = Model.create()
-};
+  console.log('POSTING RECIPE \n');
+
+  UserRecipes.create({
+    id: 18, uid: 'U007', userId: "800", recipeTitle: "Another Recipe", recipeRating: 3, mealType: "Breakfast"
+    , ingredients: "Porridge", recipeSource: "website", specialInstructions: "None", customDetails: "None"
+  });
+  console.log('Posted');
+
+
+}
 
 // Display Author delete form on GET.
 exports.recipeDeleteGET = function (req, res) {

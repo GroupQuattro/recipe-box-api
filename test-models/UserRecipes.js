@@ -94,6 +94,7 @@ const UserRecipes = function (sequelize, DataTypes) {
     customDetails: {
       type: DataTypes.TEXT,
       allowNull: false,
+      defaultValue: 'Not Available',
       field: 'customDetails'
     }
   }, {
