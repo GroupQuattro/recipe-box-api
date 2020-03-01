@@ -20,13 +20,14 @@ var sequelize = new Sequelize('prj666_201a04', 'prj666_201a04', 'faGX@7748', {
   host: 'mymysql.senecacollege.ca',
   dialect: 'mysql'
 });
-
+/*
 var UserProfile = sequelize.define('UserProfile', {
   userProfileId: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   lastName: Sequelize.STRING,
   firstName: Sequelize.STRING,
   diet: Sequelize.STRING
 });
+*/
 
 module.exports.initialize = function () {
   connectDatabase();

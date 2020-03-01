@@ -22,26 +22,56 @@ var UserRecipes = db.import('../models/UserRecipes.js');
 format to come from APP : http://localhost:8082/recipe/search?id=123&cuisine=italian&title=pizza
 */
 exports.getRecipes = async function (req, res) {
+  var flag = false;
   var response;
   var query = "";
+  var dbQuery = {};
   for (var key in req.query) {
-    if (query)
+    if (key == "user") {
+      flag = true;
+    }
+    if (query) {
       query = query + "&" + key + "=" + req.query[key];
+
+
+    }
     else
       query = query + key + "=" + req.query[key];
-  }
-  //console.log(query);
-  var reqURL = urlBase + 'search?apiKey=' + process.env.secret + '&' + query;
 
-  //console.log('Sending API Request to : '+reqURL);
-  // res.send({"url":reqURL});
+    dbQuery[key] = req.query[key];
+  }
+
+  console.log('DB ======= ');
+  console.log(dbQuery.key);
+  if (!flag) {
+    //  var reqURL = urlBase + 'search?apiKey=' + process.env.secret + '&' + query;
+    const { count, rows } = await UserRecipes.findAndCountAll(
+      {
+        where: req.query
+      }
+
+    );
+    console.log(count);
+    console.log(rows);
+  }
+  else if (flag) {
+    const { count, rows } = await UserRecipes.findAndCountAll(
+      {
+        where: req.query
+      }
+
+    );
+    console.log(count);
+    console.log(rows);
+  }
+
   try {
-    response = await axios.get(reqURL);
-    console.log(response);
+    // response = await axios.get(reqURL);
+    // console.log(response);
   } catch (error) {
     console.error(error);
   }
-  res.send(response.data);
+  // res.send(response.data);
 
 }
 
