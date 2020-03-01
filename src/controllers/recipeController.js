@@ -5,7 +5,7 @@ const urlBase = "https://api.spoonacular.com/recipes/"
 const apiKey = process.env.secret;
 var rr = require('../routing/routes')
 //const recipeModel = require("../models/UserRecipes");
-const { Sequelize, Model, DataTypes } = require("sequelize");
+const { Sequelize, Model, DataTypes, Op } = require("sequelize");
 /* Important steps to connect to db instance and update it */
 
 var db = new Sequelize('prj666_201a04', 'prj666_201a04', 'faGX@7748', {
@@ -22,27 +22,66 @@ var UserRecipes = db.import('../models/UserRecipes.js');
 format to come from APP : http://localhost:8082/recipe/search?id=123&cuisine=italian&title=pizza
 */
 exports.getRecipes = async function (req, res) {
+  var flag = false;
   var response;
   var query = "";
+  var dbQuery = {};
+  console.log(req.query);
   for (var key in req.query) {
-    if (query)
+    if (key == "user") {
+      flag = true;
+      continue;
+    }
+    if (query) {
       query = query + "&" + key + "=" + req.query[key];
+
+
+    }
     else
       query = query + key + "=" + req.query[key];
-  }
-  //console.log(query);
-  var reqURL = urlBase + 'search?apiKey=' + process.env.secret + '&' + query;
 
-  //console.log('Sending API Request to : '+reqURL);
-  // res.send({"url":reqURL});
-  try {
-    response = await axios.get(reqURL);
-    console.log(response);
-  } catch (error) {
-    console.error(error);
+    dbQuery[key] =
+      {
+        [Op.like]: '%' + (req.query[key]) + '%'
+      }
   }
-  res.send(response.data);
 
+  console.log('DB ======= ');
+  console.log(dbQuery.key);
+  if (!flag) {
+    var reqURL = urlBase + 'search?apiKey=' + process.env.secret + '&' + query;
+    try {
+      response = await axios.get(reqURL);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+    res.send(response.data);
+  }
+  else if (flag) {
+    try {
+      const { count, rows } = await UserRecipes.findAndCountAll(
+        {
+          where: dbQuery,
+          raw: true
+        }
+
+      );
+      rows.forEach(data => {
+        // data.toJSON;
+        var d = JSON.stringify(data);
+        console.log("DATA ::::::::::: ");
+        console.log(d);
+      })
+      response = count + rows;
+      console.log(response);
+    } catch (err) {
+      console.log(err.lineNumber);
+      console.log(err);
+    }
+
+    res.send(response);
+  }
 }
 
 // Display detail page for a specific Author.
