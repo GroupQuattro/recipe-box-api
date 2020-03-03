@@ -1,5 +1,8 @@
 const Sequelize = require('sequelize');
 const mysql = require('mysql');
+/* 
+sequelize-auto -h "mymysql.senecacollege.ca" -d "prj666_201a04" -u "prj666_201a04" -x "faGX@7748"  -o "./test-models" -t "userRecipes" -C
+*/
 
 //Code to connect to phpMyAdmin
 connectDatabase = function () {

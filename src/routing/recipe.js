@@ -13,10 +13,10 @@ router.get('/detail/:id', recipeController.recipeDetail); // request a recipe de
 router.get('/search?*', recipeController.getRecipes); // search for recipes
 router.get('/create', recipeController.recipeCreatePOST); // POST Create Recipe
 router.post('/createRecipe', recipeController.recipeCreatePOST);
-/*
-router.post('/createRecipe', (req, res) => {
-  recipeController.recipeCreatePOST(req.body);
 
+router.post('/example', (req, res) => {
+  console.log("req.body :: ");
+  console.log(req.body);
 });
-*/
+
 module.exports = router;

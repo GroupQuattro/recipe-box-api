@@ -1,6 +1,6 @@
 /* jshint indent: 2 */
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define('userRecipes', {
     id: {
       type: DataTypes.INTEGER(11),
@@ -36,12 +36,12 @@ module.exports = function(sequelize, DataTypes) {
     },
     recipeRating: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
       field: 'recipeRating'
     },
     mealType: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
       field: 'mealType'
     },
     dietRestrictions: {
@@ -51,7 +51,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     ingredients: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
       field: 'ingredients'
     },
     cuisine: {
@@ -61,7 +61,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     recipeSource: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
       field: 'recipeSource'
     },
     nutrients: {
@@ -88,15 +88,21 @@ module.exports = function(sequelize, DataTypes) {
     },
     specialInstructions: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
       field: 'specialInstructions'
     },
     customDetails: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
       field: 'customDetails'
+    },
+    isPublished: {
+      type: DataTypes.INTEGER(1),
+      allowNull: false,
+      defaultValue: '0',
+      field: 'isPublished'
     }
   }, {
-    tableName: 'UserRecipes'
-  });
+      tableName: 'UserRecipes'
+    });
 };

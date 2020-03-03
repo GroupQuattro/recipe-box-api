@@ -137,20 +137,20 @@ exports.recipeCreateGET = function (req, res) {
 exports.recipeCreatePOST = function (req, res) {
   console.log('POSTING RECIPE \n');
   const data = req.body;
-
-  IngredientsCategory.create(data).then(() => {
-    res.send('DONE')
-  }).catch((err) => {
-    res.send(err);
-    console.log(err);
-  });
-
   /*
-  UserRecipes.create({
-    id: 18, uid: 'U007', userId: "800", recipeTitle: "Another Recipe", recipeRating: 3, mealType: "Breakfast"
-    , ingredients: "Porridge", recipeSource: "website", specialInstructions: "None", customDetails: "None"
-  });
+    IngredientsCategory.create(data).then(() => {
+      res.send('DONE')
+    }).catch((err) => {
+      res.send(err);
+      console.log(err);
+    });
   */
+
+  UserRecipes.create({
+    uid: 'U007', userId: "800", recipeRating: 1, recipeTitle: "Salad Recipe",
+    ingredients: "Mango", specialInstructions: "None", customDetails: "None"
+  });
+
   console.log('Posted');
 
 
