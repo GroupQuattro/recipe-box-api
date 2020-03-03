@@ -14,9 +14,13 @@ var router = express.Router();
 var cookieParser = require('cookie-parser');
 var HTTP_PORT = process.env.PORT || 8082;
 
+process.env.SECRET = apiSecret.key;
+
+
 router.use(express.static(__dirname));
 router.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "../index.html"));
+
 });
 
 router.get("/about", function (req, res) {

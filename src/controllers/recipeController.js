@@ -3,6 +3,7 @@
 var axios = require('axios');
 const urlBase = "https://api.spoonacular.com/recipes/"
 const apiKey = process.env.secret;
+
 var rr = require('../routing/routes')
 //const recipeModel = require("../models/UserRecipes");
 const { Sequelize, Model, DataTypes, Op } = require("sequelize");
@@ -15,15 +16,18 @@ var db = new Sequelize('prj666_201a04', 'prj666_201a04', 'faGX@7748', {
     timestamps: false
   }
 });
-
+const resultLimit = 20; // limit of spoonacular api results; 
 var UserRecipes = db.import('../models/UserRecipes.js');
+var IngredientsCategory = db.import('../models/IngredientsCategory.js');
 
 /* Gets a list of recipes matching criteria
 format to come from APP : http://localhost:8082/recipe/search?id=123&cuisine=italian&title=pizza
 */
 exports.getRecipes = async function (req, res) {
+  console.log('KEY %%%% : ')
+  console.log(apiKey);
   var flag = false;
-  var response;
+  var response = ""
   var query = "";
   var dbQuery = {};
   console.log(req.query);
@@ -49,13 +53,15 @@ exports.getRecipes = async function (req, res) {
   console.log('DB ======= ');
   console.log(dbQuery.key);
   if (!flag) {
-    var reqURL = urlBase + 'search?apiKey=' + process.env.secret + '&' + query;
+    var reqURL = urlBase + 'complexSearch?apiKey=' + process.env.secret + '&number=' + resultLimit + '&' + query;
     try {
       response = await axios.get(reqURL);
-      console.log(response);
+
     } catch (error) {
       console.error(error);
     }
+    console.log('API RESULTS ========');
+    console.log(response.data.results);
     res.send(response.data);
   }
   else if (flag) {
@@ -67,13 +73,22 @@ exports.getRecipes = async function (req, res) {
         }
 
       );
-      rows.forEach(data => {
-        // data.toJSON;
-        var d = JSON.stringify(data);
+      console.log("NUM RESULTS:: " + count);
+      response = response + "[";
+      for (let i = 1; i <= count; i++) {
+        var d = JSON.stringify(rows[i - 1]);
         console.log("DATA ::::::::::: ");
         console.log(d);
-      })
-      response = count + rows;
+        response = response + d;
+        if (i == count) {
+          response = response + ']'
+        }
+        else {
+          response = response + ','
+        }
+      }
+
+      // response = count + rows;
       console.log(response);
     } catch (err) {
       console.log(err.lineNumber);
@@ -121,11 +136,21 @@ exports.recipeCreateGET = function (req, res) {
 // Handle Author create on POST.
 exports.recipeCreatePOST = function (req, res) {
   console.log('POSTING RECIPE \n');
+  const data = req.body;
 
+  IngredientsCategory.create(data).then(() => {
+    res.send('DONE')
+  }).catch((err) => {
+    res.send(err);
+    console.log(err);
+  });
+
+  /*
   UserRecipes.create({
     id: 18, uid: 'U007', userId: "800", recipeTitle: "Another Recipe", recipeRating: 3, mealType: "Breakfast"
     , ingredients: "Porridge", recipeSource: "website", specialInstructions: "None", customDetails: "None"
   });
+  */
   console.log('Posted');
 
 
