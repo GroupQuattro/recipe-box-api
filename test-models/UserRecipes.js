@@ -1,6 +1,6 @@
 /* jshint indent: 2 */
-const { Sequelize, Model, DataTypes } = require("sequelize");
-const UserRecipes = function (sequelize, DataTypes) {
+
+module.exports = function(sequelize, DataTypes) {
   return sequelize.define('userRecipes', {
     id: {
       type: DataTypes.INTEGER(11),
@@ -11,7 +11,7 @@ const UserRecipes = function (sequelize, DataTypes) {
     },
     uid: {
       type: DataTypes.STRING(15),
-      allowNull: false,
+      allowNull: true,
       field: 'uid'
     },
     userId: {
@@ -22,6 +22,7 @@ const UserRecipes = function (sequelize, DataTypes) {
     recipeTitle: {
       type: DataTypes.STRING(255),
       allowNull: false,
+      defaultValue: 'Untitled',
       field: 'recipeTitle'
     },
     recipeDesc: {
@@ -36,12 +37,12 @@ const UserRecipes = function (sequelize, DataTypes) {
     },
     recipeRating: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
       field: 'recipeRating'
     },
     mealType: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
       field: 'mealType'
     },
     dietRestrictions: {
@@ -51,7 +52,7 @@ const UserRecipes = function (sequelize, DataTypes) {
     },
     ingredients: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
       field: 'ingredients'
     },
     cuisine: {
@@ -61,7 +62,7 @@ const UserRecipes = function (sequelize, DataTypes) {
     },
     recipeSource: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
       field: 'recipeSource'
     },
     nutrients: {
@@ -88,22 +89,21 @@ const UserRecipes = function (sequelize, DataTypes) {
     },
     specialInstructions: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
       field: 'specialInstructions'
     },
     customDetails: {
       type: DataTypes.TEXT,
-      allowNull: false,
-      defaultValue: 'Not Available',
+      allowNull: true,
       field: 'customDetails'
+    },
+    isPublished: {
+      type: DataTypes.INTEGER(1),
+      allowNull: false,
+      defaultValue: '0',
+      field: 'isPublished'
     }
   }, {
-      tableName: 'UserRecipes'
-    });
+    tableName: 'UserRecipes'
+  });
 };
-(async () => {
-  await sequelize.sync({ force: true });
-  const x = UserRecipes;
-})();
-
-module.exports = UserRecipes;

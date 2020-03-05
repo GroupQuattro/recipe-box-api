@@ -1,13 +1,17 @@
 const Sequelize = require('sequelize');
 const mysql = require('mysql');
+const apiKey = require('../../config/apiKey.json')
+/* 
+sequelize-auto -h "mymysql.senecacollege.ca" -d "schemaName" -u "username" -x "password"  -o "./test-models" -t "userRecipes" -C
+*/
 
 //Code to connect to phpMyAdmin
 connectDatabase = function () {
   const connection = mysql.createConnection({
     host: 'mymysql.senecacollege.ca',
-    user: 'prj666_201a04',
-    password: 'faGX@7748',
-    database: 'prj666_201a04'
+    user: apiKey.dbUsername,
+    password: apiKey.dbPass,
+    database: apiKey.dbUsername
   });
   connection.connect((err) => {
     if (err) throw err;
@@ -16,7 +20,7 @@ connectDatabase = function () {
 }
 
 // Code for connecting to database via sequelize
-var sequelize = new Sequelize('prj666_201a04', 'prj666_201a04', 'faGX@7748', {
+var sequelize = new Sequelize(apiKey.dbUsername, apiKey.dbUsername, apiKey.dbPass, {
   host: 'mymysql.senecacollege.ca',
   dialect: 'mysql'
 });

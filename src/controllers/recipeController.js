@@ -3,13 +3,13 @@
 var axios = require('axios');
 const urlBase = "https://api.spoonacular.com/recipes/"
 const apiKey = process.env.secret;
-
+const keys = require('../../config/apiKey.json')
 var rr = require('../routing/routes')
 //const recipeModel = require("../models/UserRecipes");
 const { Sequelize, Model, DataTypes, Op } = require("sequelize");
 /* Important steps to connect to db instance and update it */
 
-var db = new Sequelize('prj666_201a04', 'prj666_201a04', 'faGX@7748', {
+var db = new Sequelize(keys.dbUsername, keys.dbUsername, keys.dbPass, {
   host: 'mymysql.senecacollege.ca',
   dialect: 'mysql',
   define: {
@@ -134,24 +134,99 @@ exports.recipeCreateGET = function (req, res) {
 };
 
 // Handle Author create on POST.
-exports.recipeCreatePOST = function (req, res) {
+exports.recipeCreatePOST = async function (req, res) {
   console.log('POSTING RECIPE \n');
-  const data = req.body;
+  let data = req.body;
+  let isPosted = false
+  /*
+    IngredientsCategory.create(data).then(() => {
+      res.send('DONE')
+    }).catch((err) => {
+      res.send(err);
+      console.log(err);
+    });
+  */
+  await UserRecipes.create(data).then(async tableData => {
+    let userRecipe = tableData
+    userRecipe.uid = "U" + userRecipe.id;
+    await userRecipe.save();
 
-  IngredientsCategory.create(data).then(() => {
-    res.send('DONE')
+    isPosted = true;
+
+    console.log(userRecipe)
+
+    res.send('Successful Create' + JSON.stringify(data))
+
+
   }).catch((err) => {
-    res.send(err);
+    res.send("There was an error saving your recipe." + err);
     console.log(err);
   });
 
+
   /*
-  UserRecipes.create({
-    id: 18, uid: 'U007', userId: "800", recipeTitle: "Another Recipe", recipeRating: 3, mealType: "Breakfast"
-    , ingredients: "Porridge", recipeSource: "website", specialInstructions: "None", customDetails: "None"
+  .then(() => {
+    isPosted = true;
+
+    res.send('Success' + data)
+
+
+  }).catch((err) => {
+    res.send("There was an error saving your recipe." + err);
+    console.log(err);
   });
-  */
+  ********/
+
+
   console.log('Posted');
+
+
+}
+
+exports.recipeUpdatePOST = async function (req, res) {
+  console.log('UPDATIG RECIPE \n');
+  let data = req.body;
+  let isPosted = false
+  /*
+    IngredientsCategory.create(data).then(() => {
+      res.send('DONE')
+    }).catch((err) => {
+      res.send(err);
+      console.log(err);
+    });
+  */
+  console.log(data);
+  await UserRecipes.update({ data }, { where: { id: data.id } }).then(async tableData => {
+    let userRecipe = tableData
+
+    isPosted = true;
+
+    console.log(userRecipe)
+
+    res.send('Success' + JSON.stringify(data))
+
+
+  }).catch((err) => {
+    res.send("There was an error updating your recipe." + err);
+    console.log(err);
+  });
+
+
+  /*
+  .then(() => {
+    isPosted = true;
+
+    res.send('Success' + data)
+
+
+  }).catch((err) => {
+    res.send("There was an error saving your recipe." + err);
+    console.log(err);
+  });
+  ********/
+
+
+  console.log('Updated');
 
 
 }
@@ -172,6 +247,3 @@ exports.recipeUpdateGET = function (req, res) {
 };
 
 // Handle Author update on POST.
-exports.recipeUpdatePOST = function (req, res) {
-  res.send('NOT IMPLEMENTED: Author update POST');
-};

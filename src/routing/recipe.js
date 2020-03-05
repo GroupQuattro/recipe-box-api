@@ -11,12 +11,12 @@ router.get('/', function (req, res) {
 });
 router.get('/detail/:id', recipeController.recipeDetail); // request a recipe detail by ID
 router.get('/search?*', recipeController.getRecipes); // search for recipes
-router.get('/create', recipeController.recipeCreatePOST); // POST Create Recipe
+router.get('/create', recipeController.recipeCreateGET); // POST Create Recipe
 router.post('/createRecipe', recipeController.recipeCreatePOST);
-/*
-router.post('/createRecipe', (req, res) => {
-  recipeController.recipeCreatePOST(req.body);
-
+router.post('/updateRecipe', recipeController.recipeUpdatePOST);
+router.post('/example', (req, res) => {
+  console.log("req.body :: ");
+  console.log(req.body);
 });
-*/
+
 module.exports = router;
