@@ -11,7 +11,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     uid: {
       type: DataTypes.STRING(15),
-      allowNull: false,
+      allowNull: true,
       field: 'uid'
     },
     userId: {
@@ -22,6 +22,7 @@ module.exports = function (sequelize, DataTypes) {
     recipeTitle: {
       type: DataTypes.STRING(255),
       allowNull: false,
+      defaultValue: 'Untitled',
       field: 'recipeTitle'
     },
     recipeDesc: {
